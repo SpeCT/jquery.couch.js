@@ -320,8 +320,9 @@
               // Stop subscribing to the changes feed and release connection
               stop : function() {
                 active = false;
-                if (this.jqxhr) this.jqxhr.abort();
+                if (this.jqxhr && this.jqxhr.abort) this.jqxhr.abort();
               },
+              onError : undefined // function(){} – Override to handle errors
             };
 
           // call each listener when there is a change
@@ -343,6 +344,10 @@
           };
           options.error = function() {
             if (active) {
+              if (promise.onError) {
+                promise.onError();
+                if (!active) return;
+              }
               setTimeout(getChangesSince, timeout);
               timeout = timeout * 2;
             }
