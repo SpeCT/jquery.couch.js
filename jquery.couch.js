@@ -26,6 +26,8 @@
 
   $.couch = $.couch || {};
 
+  $.couch.alert = alert;
+
   function encodeDocId(docID) {
     var parts = docID.split("/");
     if (parts[0] == "_design") {
@@ -101,7 +103,7 @@
           } else if (options.error) {
             options.error(req.status, resp.error, resp.reason);
           } else {
-            alert("An error occurred getting session info: " + resp.reason);
+            $.couch.alert("An error occurred getting session info: " + resp.reason);
           }
         }
       });
@@ -132,7 +134,7 @@
     // Populates a user doc with a new password.
     prepareUserDoc: function(user_doc, new_password) {
       if (typeof hex_sha1 == "undefined") {
-        alert("creating a user doc requires sha1.js to be loaded in the page");
+        $.couch.alert("creating a user doc requires sha1.js to be loaded in the page");
         return;
       }
       var user_prefix = "org.couchdb.user:";
@@ -166,7 +168,7 @@
           } else if (options.error) {
             options.error(req.status, resp.error, resp.reason);
           } else {
-            alert("An error occurred logging in: " + resp.reason);
+            $.couch.alert("An error occurred logging in: " + resp.reason);
           }
         }
       });
@@ -189,7 +191,7 @@
           } else if (options.error) {
             options.error(req.status, resp.error, resp.reason);
           } else {
-            alert("An error occurred logging out: " + resp.reason);
+            $.couch.alert("An error occurred logging out: " + resp.reason);
           }
         }
       });
@@ -211,7 +213,7 @@
             rawDocs[doc._id].rev == doc._rev) {
           // todo: can we use commonjs require here?
           if (typeof Base64 == "undefined") {
-            alert("please include /_utils/script/base64.js in the page for " +
+            $.couch.alert("please include /_utils/script/base64.js in the page for " +
                   "base64 support");
             return false;
           } else {
@@ -438,7 +440,7 @@
               }
             });
           } else {
-            alert("Please provide an eachApp function for allApps()");
+            $.couch.alert("Please provide an eachApp function for allApps()");
           }
         },
 
@@ -514,7 +516,7 @@
               } else if (options.error) {
                 options.error(req.status, resp.error, resp.reason);
               } else {
-                alert("The document could not be saved: " + resp.reason);
+                $.couch.alert("The document could not be saved: " + resp.reason);
               }
             }
           });
@@ -578,7 +580,7 @@
               } else if (options.error) {
                 options.error(req.status, resp.error, resp.reason);
               } else {
-                alert("The document could not be copied: " + resp.reason);
+                $.couch.alert("The document could not be copied: " + resp.reason);
               }
             }
           });
@@ -661,7 +663,7 @@
               } else if (options.error) {
                 options.error(req.status, resp.error, resp.reason);
               } else {
-                alert("An error occurred getting session info: " + resp.reason);
+                $.couch.alert("An error occurred getting session info: " + resp.reason);
               }
             },
 	    url: this.uri + '_design/' + ddoc_fun[0] +
@@ -792,7 +794,7 @@
           if (options.error) {
             options.error(req.status, req, e);
           } else {
-            alert(errorMessage + ": " + e);
+            $.couch.alert(errorMessage + ": " + e);
           }
           return;
         }
@@ -806,7 +808,7 @@
           options.error(req.status, resp && resp.error ||
                         errorMessage, resp && resp.reason || "no response");
         } else {
-          alert(errorMessage + ": " + resp.reason);
+          $.couch.alert(errorMessage + ": " + resp.reason);
         }
       }
     }, obj), ajaxOptions));
